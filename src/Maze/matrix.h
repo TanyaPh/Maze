@@ -10,6 +10,7 @@ private:
     int cols;
     std::vector<std::vector<int>> vertical;
     std::vector<std::vector<int>> horizontal;
+    std::vector<std::vector<int>> sets;
 
 public:
     Matrix(int numRows, int numCols);
@@ -17,6 +18,9 @@ public:
     int getColumns() const;
     int getVerticalValue(int row, int col) const;
     int getHorizontalValue(int row, int col) const;
+    int getSetValue(int row, int col) const;
+    void checkSetInRow(int i);
+    void checkHorizontalInRow(int i);
     void generateMaze();
 };
 

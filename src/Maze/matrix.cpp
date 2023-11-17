@@ -6,6 +6,17 @@
 Matrix::Matrix(int numRows, int numCols) : rows(numRows), cols(numCols) {
     vertical.resize(rows + 1, std::vector<int>(cols, 0));
     horizontal.resize(rows, std::vector<int>(cols + 1, 0));
+
+    sets.resize(rows, std::vector<int>(cols, -1));
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            sets[i][j] = i * cols + j;
+            horizontal[i][j] = 1;
+            std::cout << sets[i][j] << " ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
 }
 
 int Matrix::getRows() const {
@@ -17,65 +28,95 @@ int Matrix::getColumns() const {
 }
 
 int Matrix::getVerticalValue(int row, int col) const {
-    if (row >= 0 && row <= rows && col >= 0 && col < cols) {
-        return vertical[row][col];
-    } else {
-        std::cout << "Некорректные индексы для вертикальной стенки" << std::endl;
-        return 0; // можно вернуть какое-то значение по умолчанию
-    }
+    return vertical[row][col];
 }
 
 int Matrix::getHorizontalValue(int row, int col) const {
-    if (row >= 0 && row < rows && col >= 0 && col <= cols) {
-        return horizontal[row][col];
-    } else {
-        std::cout << "Некорректные индексы для горизонтальной стенки" << std::endl;
-        return 0; // можно вернуть какое-то значение по умолчанию
-    }
+    return horizontal[row][col];
+}
+
+int Matrix::getSetValue(int row, int col) const {
+    return sets[row][col];
 }
 
 void Matrix::generateMaze() {
     srand(static_cast<unsigned>(time(0)));
 
-    // Initialize each cell as a separate set
-    for (int row = 0; row < rows; ++row) {
-        for (int col = 0; col < cols; ++col) {
-            vertical[row][col] = 1;  // Initially, set all vertical walls
-            horizontal[row][col] = 1; // Initially, set all horizontal walls
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            vertical[i][j] = rand() & 1;
+
+            if (j != 0 && vertical[i][j-1] == 0)
+            {
+                sets[i][j] = sets[i][j-1]; // предыдущему переприсваиваю номер множества, если стенки нет
+
+            }
+            std::cout << sets[i][j] << " ";
+        }
+
+        checkSetInRow(i);
+
+        std::cout << "\n";
+        checkHorizontalInRow(i);
+    }
+}
+
+void Matrix::checkSetInRow(int i) {
+    int firstSetValue = sets[i][0];
+    bool allSame = true;
+
+    for (int j = 1; j < cols; j++) {
+        if (sets[i][j] != firstSetValue) {
+            allSame = false;
+            break;
         }
     }
 
-    for (int row = 0; row < rows - 1; ++row) {
-        // Create horizontal connections within a row
-        for (int col = 0; col < cols - 1; ++col) {
-            if (rand() % 2 == 0) {
-                horizontal[row][col] = 0; // Remove the horizontal wall with 50% probability
+    if (allSame) {
+        for (int j = 0; j < cols; j++)
+        {
+            vertical[i][j] = rand() & 1;
+
+            if (j != 0 && vertical[i][j-1] == 0)
+            {
+                sets[i][j] = sets[i][j-1]; // предыдущему переприсваиваю номер множества, если стенки нет
+
             }
-        }
-
-        // Create vertical connections between cells in different sets
-        for (int col = 0; col < cols; ++col) {
-            if (col < cols - 1 && (rand() % 2 == 0 || vertical[row][col] != vertical[row][col + 1])) {
-                // Remove the vertical wall if random condition met or different sets
-                vertical[row][col] = 0;
-
-                // Merge sets
-                int targetSet = vertical[row][col + 1];
-                int currentSet = vertical[row][col];
-                for (int c = 0; c < cols; ++c) {
-                    if (vertical[row][c] == currentSet) {
-                        vertical[row][c] = targetSet;
-                    }
-                }
-            }
-        }
-    }
-
-    // Remove horizontal walls in the last row
-    for (int col = 0; col < cols - 1; ++col) {
-        if (rand() % 2 == 0 || vertical[rows - 1][col] != vertical[rows - 1][col + 1]) {
-            horizontal[rows - 1][col] = 0;
         }
     }
 }
 
+void Matrix::checkHorizontalInRow(int i) {
+    std::vector<int> uniqueSets;
+        for (int j = 0; j < cols; j++) {
+            if (std::find(uniqueSets.begin(), uniqueSets.end(), sets[i][j]) == uniqueSets.end()) {
+                uniqueSets.push_back(sets[i][j]);
+            }
+        }
+
+        // перебор по уникальным номерам сета
+        for (int setNumber : uniqueSets) {
+            // индексы ячеек с текущим номером сета
+            std::vector<int> cellsWithSet;
+            for (int j = 0; j < cols; j++) {
+                if (sets[i][j] == setNumber) {
+                    cellsWithSet.push_back(j);
+                }
+            }
+
+            // если только одна ячейка с определенным номером (стенки вокруг), удаляем нижнюю стенку
+            if (cellsWithSet.size() == 1) {
+                int singleCell = cellsWithSet[0];
+                horizontal[i][singleCell] = 0;
+            }
+            // когда несколько ячеек с одинаковым номером, удаляем рандомно нижнюю стенку
+            else if (cellsWithSet.size() > 1) {
+                int randomIndex = rand() % cellsWithSet.size();
+                int randomCell = cellsWithSet[randomIndex];
+
+                horizontal[i][randomCell] = 0;
+            }
+        }
+}

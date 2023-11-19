@@ -42,13 +42,17 @@ void parseMaze(std::string file_name) {
     // renderM(horizontal);
 }
 
-std::vector<std::vector<int>> findPath(std::pair<int, int> src, std::pair<int, int> dest) {
-    // if (src == dest) { 
-    //     std::cout << "Incorrect coordinates: start and finish coordinates are same" << std::endl;
-    //     return;
-    // }
+void coordinateValidation(std::pair<int, int> src, std::pair<int, int> dest) {
+    if (src == dest) { 
+        throw std::string{"Incorrect coordinates: start and finish coordinates are same"};
+    }
+    if (src.first < 0 || src.first >= rows || src.second < 0 || src.second >= rows || 
+        dest.first < 0 || dest.first >= cols || dest.second < 0 || dest.second >= rows) {
+        throw std::string{"Incorrect coordinates: out of range"};
+    }
+}
 
-    std::vector<std::vector<int>> wave(rows, std::vector<int>(cols, -1));
+void makeWave(std::vector<std::vector<int>> &wave, std::pair<int, int> src, std::pair<int, int> dest) {
     std::queue<std::pair<int, int>> q;
     wave[src.first][src.second] = 0;
     q.push(src);
@@ -77,8 +81,9 @@ std::vector<std::vector<int>> findPath(std::pair<int, int> src, std::pair<int, i
         }
         q.pop();
     }
-    // renderM(wave);
+}
 
+std::vector<std::vector<int>> makePath(std::vector<std::vector<int>> &wave, std::pair<int, int> src, std::pair<int, int> dest) {
     std::vector<std::vector<int>> path(rows, std::vector<int>(cols, -1));
     auto cell = dest;
     for (int n = wave[dest.first][dest.second] - 1; n >= 0; n--) {
@@ -104,13 +109,26 @@ std::vector<std::vector<int>> findPath(std::pair<int, int> src, std::pair<int, i
     return path;
 }
 
+std::vector<std::vector<int>> findPath(std::pair<int, int> src, std::pair<int, int> dest) {
+    coordinateValidation(src, dest);
+    std::vector<std::vector<int>> wave(rows, std::vector<int>(cols, -1));
+    makeWave(wave, src, dest);
+    // renderM(wave);
+    return makePath(wave, src, dest);
+}
+
 int main() {
     parseMaze("testcase");
-    // findPath({0, 0}, {3, 3});
-    // findPath({2, 2}, {3, 3});
-    // findPath({0, 2}, {3, 3});
-    // findPath({3, 0}, {3, 3});
-    // findPath({3, 3}, {3, 3});
-    renderM(findPath({1, 0}, {3, 0}));
+    try {
+        // findPath({0, 0}, {3, 3});
+        // findPath({2, 2}, {3, 3});
+        // findPath({0, 2}, {3, 3});
+        // findPath({3, 0}, {3, 3});
+        // findPath({3, 3}, {3, 3});
+        renderM(findPath({1, 0}, {3, 0}));
+    } catch (const std::string& error_message) {
+        std::cout << error_message << std::endl;
+    }
+    
     return 0;
 }

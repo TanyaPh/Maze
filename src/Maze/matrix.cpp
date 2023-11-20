@@ -102,27 +102,43 @@ void Matrix::generateMaze() {
 }
 
 void Matrix::saveMaze(const std::string& fileName) const {
-    std::ofstream outputFile(fileName);
+    std::filesystem::path outputPath(fileName);
+
+    if (outputPath.is_relative()) {
+        // Если путь относительный, преобразуем его в абсолютный путь
+        outputPath = std::filesystem::absolute(outputPath);
+    }
+
+    std::ofstream outputFile(outputPath);
 
     if (outputFile.is_open()) {
         outputFile << rows << ' ' << cols << '\n';
+        std::cout << rows << ' ' << cols << '\n';
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 outputFile << vertical[i][j] << ' ';
+                std::cout << vertical[i][j] << ' ';
             }
             outputFile << '\n';
+             std::cout <<'\n';
         }
+
+        outputFile << '\n';
+         std::cout <<'\n';
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 outputFile << horizontal[i][j] << ' ';
+                std::cout << horizontal[i][j] << ' ';
             }
             outputFile << '\n';
+            std::cout <<'\n';
         }
-        std::cout << "Maze saved to: " << fileName << std::endl;
+
         outputFile.close();
+        std::cout << "Maze saved to: " << outputPath << std::endl;
     } else {
-        std::cerr << "что-то пошло не так" << fileName << std::endl;
+        std::cerr << "Unable to open file for writing: " << outputPath << std::endl;
     }
 }

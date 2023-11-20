@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <queue>
@@ -13,7 +14,7 @@ void renderM(std::vector<std::vector<int>> m) {
     std::cout <<  rows << ' ' << cols << std::endl;
     for (size_t i = 0; i < m.size(); i++) {
         for (size_t j = 0; j < m[i].size(); j++) {
-            std::cout << m[i][j] << ' ';
+            std::cout << std::setw(3) << m[i][j] << ' ';
         }
         std::cout << '\n';
     }
@@ -24,6 +25,9 @@ void parseMaze(std::string file_name) {
     std::ifstream data_maze(file_name);
     if (data_maze.is_open()) {
         data_maze >> rows >> cols;
+        if (rows < 0 || cols < 0) {
+            throw std::string{"Incorrect size"};
+        }
         vertical.resize(rows, std::vector<int>(cols, -1));
         horizontal.resize(rows, std::vector<int>(cols, -1));
         for (auto i = 0; i < rows; i++) {
@@ -81,6 +85,8 @@ void makeWave(std::vector<std::vector<int>> &wave, std::pair<int, int> src, std:
         }
         q.pop();
     }
+    if (wave[dest.first][dest.second] == -1) 
+        throw std::string{"Path not found"};
 }
 
 std::vector<std::vector<int>> makePath(std::vector<std::vector<int>> &wave, std::pair<int, int> src, std::pair<int, int> dest) {
@@ -118,14 +124,14 @@ std::vector<std::vector<int>> findPath(std::pair<int, int> src, std::pair<int, i
 }
 
 int main() {
-    parseMaze("testcase");
     try {
-        // findPath({0, 0}, {3, 3});
+        parseMaze("testcase4");
+        renderM(findPath({0, 0}, {3, 3}));
         // findPath({2, 2}, {3, 3});
         // findPath({0, 2}, {3, 3});
         // findPath({3, 0}, {3, 3});
         // findPath({3, 3}, {3, 3});
-        renderM(findPath({1, 0}, {3, 0}));
+        // renderM(findPath({1, 0}, {3, 0}));
     } catch (const std::string& error_message) {
         std::cout << error_message << std::endl;
     }

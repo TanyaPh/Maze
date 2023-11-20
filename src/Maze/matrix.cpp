@@ -100,3 +100,29 @@ void Matrix::generateMaze() {
         }
     }
 }
+
+void Matrix::saveMaze(const std::string& fileName) const {
+    std::ofstream outputFile(fileName);
+
+    if (outputFile.is_open()) {
+        outputFile << rows << ' ' << cols << '\n';
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                outputFile << vertical[i][j] << ' ';
+            }
+            outputFile << '\n';
+        }
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                outputFile << horizontal[i][j] << ' ';
+            }
+            outputFile << '\n';
+        }
+        std::cout << "Maze saved to: " << fileName << std::endl;
+        outputFile.close();
+    } else {
+        std::cerr << "что-то пошло не так" << fileName << std::endl;
+    }
+}

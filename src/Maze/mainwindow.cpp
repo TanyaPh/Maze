@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->maze->clearSolution();
     ui->btnSolveMaze->setEnabled(false);
 
-    ui->end_x->setMaximum(ui->spinBoxRows->value());
-    ui->end_y->setMaximum(ui->spinBoxCols->value());
+    ui->end_x->setMaximum(ui->spinBoxCols->value());
+    ui->end_y->setMaximum(ui->spinBoxRows->value());
 }
 
 MainWindow::~MainWindow()
@@ -96,12 +96,14 @@ void MainWindow::on_btnSolveMaze_clicked()
 
 void MainWindow::on_spinBoxRows_valueChanged(int arg1)
 {
-    ui->end_x->setMaximum(ui->spinBoxRows->value());
+    ui->end_y->setMaximum(arg1);
+    std::cout << "\nstart: " << ui->start_x->value() << ", " << ui->start_y->value() << "\n end: " << ui->end_x->value() << ", " << ui->end_y->value();
 }
 
 
 void MainWindow::on_spinBoxCols_valueChanged(int arg1)
 {
-    ui->end_y->setMaximum(ui->spinBoxCols->value());
+    ui->end_x->setMaximum(arg1);
+    std::cout << "\nstart: " << ui->start_x->value() << ", " << ui->start_y->value() << "\n end: " << ui->end_x->value() << ", " << ui->end_y->value();
 }
 

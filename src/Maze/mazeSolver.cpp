@@ -44,7 +44,7 @@ void MazeSolver::coordinateValidation(std::pair<int, int> src, std::pair<int, in
         throw std::string{"Incorrect coordinates: start and finish coordinates are same"};
     }
     if (src.first < 0 || src.first >= rows || src.second < 0 || src.second >= rows ||
-        dest.first < 0 || dest.first >= cols || dest.second < 0 || dest.second >= rows) {
+        dest.first < 0 || dest.first >= cols || dest.second < 0 || dest.second >= cols) {
         throw std::string{"Incorrect coordinates: out of range"};
     }
 }

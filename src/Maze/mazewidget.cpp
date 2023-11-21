@@ -83,7 +83,9 @@ void MazeWidget::paintEvent(QPaintEvent* event) {
 
 
     // отрисовка лабиринта
-    drawMaze(painter);
+    QPainter painter2(this);
+    painter2.setPen(Qt::red);
+    drawMaze(painter2);
 
     QPainter painterSolution(this);
     // отрисовка решения

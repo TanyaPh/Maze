@@ -61,8 +61,8 @@ void MainWindow::on_btnSolveMaze_clicked()
             throw std::runtime_error("Start and end coordinates are the same.");
         }
 
-        std::pair<int, int> src(start_x-1, start_y-1);  // начальные координаты
-        std::pair<int, int> dest(end_x-1, end_y-1);  // конечные координаты
+        std::pair<int, int> src(start_y-1, start_x-1);  // начальные координаты
+        std::pair<int, int> dest(end_y-1, end_x-1);  // конечные координаты
 
         mazeSolver.parseMaze("awd.txt");
         std::cout << "parseMaze был\n";

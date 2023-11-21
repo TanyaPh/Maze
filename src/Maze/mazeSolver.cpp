@@ -82,7 +82,7 @@ void MazeSolver::makeWave(std::vector<std::vector<int>> &wave, std::pair<int, in
         throw std::string{"Path not found"};
 }
 
-std::vector<std::vector<int>> MazeSolver::makePath(std::vector<std::vector<int>> &wave, std::pair<int, int> src, std::pair<int, int> dest) {
+std::vector<std::vector<int>> MazeSolver::makePath(std::vector<std::vector<int>> &wave, std::pair<int, int> dest) {
     std::vector<std::vector<int>> path(rows, std::vector<int>(cols, -1));
     auto cell = dest;
     for (int n = wave[dest.first][dest.second] - 1; n >= 0; n--) {
@@ -117,5 +117,5 @@ std::vector<std::vector<int>> MazeSolver::findPath(std::pair<int, int> src, std:
     std::cout << "makeWave";
     renderM(wave);
     std::cout << "renderM";
-    return makePath(wave, src, dest);
+    return makePath(wave, dest);
 }

@@ -23,6 +23,7 @@ public:
     void checkSetInRow(int i);
     void checkHorizontalInRow(int i);
     void generateMaze();
+    void generateMaze(int numRows, int numCols);
     void saveMaze(const std::string& fileName) const;
 };
 

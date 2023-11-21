@@ -25,6 +25,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-//    MazeController controller_;
+    MazeController controller_;
 };
 #endif // MAINWINDOW_H

@@ -101,6 +101,75 @@ void Matrix::generateMaze() {
     }
 }
 
+void Matrix::generateMaze(int numRows, int numCols) {
+    rows = numRows;
+    cols = numCols;
+    vertical.resize(rows + 1, std::vector<int>(cols, 0));
+    horizontal.resize(rows, std::vector<int>(cols + 1, 0));
+
+    sets.resize(rows, std::vector<int>(cols, -1));
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            sets[i][j] = j +1;
+        }
+    }
+    //////////////////////////////////////
+    srand(static_cast<unsigned>(time(0)));
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            horizontal[i][j] = 1;
+            vertical[i][j] = rand() & 1;
+
+            if (j != 0 && vertical[i][j-1] == 0) {
+                sets[i][j] = sets[i][j-1]; // предыдущему переприсваиваю номер множества, если стенки нет
+            }
+
+            if (i == rows - 1) { // для ласт ряда
+                sets[i][j] = sets[i-1][j];
+            }
+        }
+
+        if (i == rows - 1) { // для ласт ряда
+            for (int j = 0; j < cols; j++) {
+                if (sets[i][j+1] == sets[i][j] && j < cols - 1 && horizontal[i-1][j] != 1 && horizontal[i-1][j+1] != 1 && j < cols-1) {
+                    vertical[i][j] = 1;
+                } else if (sets[i][j+1] != sets[i][j] && j < cols - 1) {
+                    sets[i][j] = sets[i][j-1];
+                    vertical[i][j] = 0;
+                } else {
+                    vertical[i][j] = 0;
+                }
+            }
+        }
+
+        for (int j = 0; j < cols; ) { // добавляю нижнюю границу
+            int size_this_set = 0, itterator = 0;
+
+            while (sets[i][size_this_set+1+j] == sets[i][size_this_set+j]) {
+                size_this_set++;
+            }
+
+            if (size_this_set != 0) {
+                std::vector<int> values = generateVector(size_this_set+1);
+                for (int v : values) {
+                    horizontal[i][itterator+j] = v;
+                    j++;
+                }
+            } else if (sets[i][j+1] != sets[i][j] && j != cols-1) {
+                horizontal[i][j] = 0;
+                j++;
+            } else if (sets[i][j-1] != sets[i][j] && j == cols-1) {
+                horizontal[i][j] = 0;
+                j++;
+            } else {
+                horizontal[i][j] = 1;
+                j++;
+            }
+        }
+    }
+}
+
 void Matrix::saveMaze(const std::string& fileName) const {
     std::filesystem::path outputPath(fileName);
 

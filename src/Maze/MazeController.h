@@ -7,10 +7,12 @@
 
 class MazeController {
 public:
+    MazeController();
     MazeController(int numRows, int numCols);
 
     void generateMaze();
-    void solveMaze(std::pair<int, int> src, std::pair<int, int> dest);
+    void generateMaze(int numRows, int numCols);
+    std::vector<std::vector<int>> solveMaze(std::pair<int, int> src, std::pair<int, int> dest);
     void saveMatrixToFile(const std::string& fileName);
     void loadMatrixFromFile(const std::string& fileName);
     const Matrix& getMatrix() const;

@@ -130,7 +130,7 @@ void Matrix::saveMaze(const std::string& fileName) const {
         }
 
         outputFile.close();
-        // std::cout << "Maze saved to: " << outputPath << std::endl;
+        std::cout << "Maze saved to: " << outputPath << std::endl;
     } else {
         std::cerr << "Unable to open file for writing: " << outputPath << std::endl;
     }

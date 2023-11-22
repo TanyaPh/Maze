@@ -42,6 +42,10 @@ void MainWindow::on_btnGenerateMaze_clicked()
         // отображение виджета
         ui->maze->show();
         ui->btnSolveMaze->setEnabled(true);
+        QString tmp = QString::number(numRows) + " - " + QString::number(numCols) ;
+
+        QMessageBox::information(this, tmp, tmp);
+
     } catch (const std::exception& e) {
         qDebug() << "Exception caught: " << e.what();
     }
@@ -67,8 +71,13 @@ void MainWindow::on_btnSolveMaze_clicked()
 
         mazeSolver.parseMaze("awd.txt");
         std::cout << "parseMaze был\n";
+        QString tmp = QString::number(start_x) + " - " + QString::number(start_y) + " : " + QString::number(end_x) + " - " + QString::number(end_y) ;
+
+        QMessageBox::information(this, tmp, tmp);
 
         std::vector<std::vector<int>> wave = mazeSolver.findPath(src, dest);
+
+        QMessageBox::information(this, tmp, tmp);
 
         std::cout << "findPath был\n";
         QVector<QPoint> path;

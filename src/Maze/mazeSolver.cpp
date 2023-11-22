@@ -76,8 +76,8 @@ void MazeSolver::makeWave(std::vector<std::vector<int>> &wave, std::pair<int, in
         }
         q.pop();
     }
-    if (wave[dest.first][dest.second] == -1)
-        throw std::runtime_error("Path not found");
+//    if (wave[dest.first][dest.second] == -1)
+//        throw std::runtime_error("Path not found");
 }
 
 std::vector<std::vector<int>> MazeSolver::makePath(std::vector<std::vector<int>> &wave, std::pair<int, int> dest) {
@@ -107,7 +107,7 @@ std::vector<std::vector<int>> MazeSolver::makePath(std::vector<std::vector<int>>
 }
 
 std::vector<std::vector<int>> MazeSolver::findPath(std::pair<int, int> src, std::pair<int, int> dest) {
-    coordinateValidation(src, dest);
+//    coordinateValidation(src, dest);
     std::vector<std::vector<int>> wave(rows, std::vector<int>(cols, -1));
     makeWave(wave, src, dest);
     return makePath(wave, dest);

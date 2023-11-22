@@ -1,9 +1,4 @@
 #include "matrix.h"
-#include <cstdlib> // for rand function
-#include <cstdlib>   // Подключаем библиотеку для работы с функциями, связанными с генерацией случайных чисел
-#include <ctime>
-#include <algorithm>
-#include <random>
 
 Matrix::Matrix(int numRows, int numCols) : rows(numRows), cols(numCols) {
     vertical.resize(rows + 1, std::vector<int>(cols, 0));
@@ -113,27 +108,21 @@ void Matrix::saveMaze(const std::string& fileName) const {
 
     if (outputFile.is_open()) {
         outputFile << rows << ' ' << cols << '\n';
-        std::cout << rows << ' ' << cols << '\n';
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 outputFile << vertical[i][j] << ' ';
-                std::cout << vertical[i][j] << ' ';
             }
             outputFile << '\n';
-             std::cout <<'\n';
         }
 
         outputFile << '\n';
-         std::cout <<'\n';
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 outputFile << horizontal[i][j] << ' ';
-                std::cout << horizontal[i][j] << ' ';
             }
             outputFile << '\n';
-            std::cout <<'\n';
         }
 
         outputFile.close();

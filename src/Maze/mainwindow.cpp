@@ -34,7 +34,20 @@ void MainWindow::on_btnGenerateMaze_clicked()
 
         // зполнение матрицы по вертикали и горизонтали
         myMatrix.generateMaze();
-        myMatrix.saveMaze("awd.txt");
+
+        QString currentDir = QCoreApplication::applicationDirPath();
+
+        std::string currentDirr = currentDir.toStdString();
+
+        size_t foundPos = currentDirr.find("src/");
+        std::string modifiedDir;
+
+
+        if (foundPos != std::string::npos) {
+            modifiedDir = currentDirr.substr(0, foundPos + 4);
+        }
+
+        myMatrix.saveMaze(modifiedDir + "/examples/awd.txt");
 
         // создание виджета и установка матрицы
         ui->maze->setMatrix(myMatrix);
@@ -42,9 +55,6 @@ void MainWindow::on_btnGenerateMaze_clicked()
         // отображение виджета
         ui->maze->show();
         ui->btnSolveMaze->setEnabled(true);
-        QString tmp = QString::number(numRows) + " - " + QString::number(numCols) ;
-
-        QMessageBox::information(this, tmp, tmp);
 
     } catch (const std::exception& e) {
         qDebug() << "Exception caught: " << e.what();
@@ -69,23 +79,27 @@ void MainWindow::on_btnSolveMaze_clicked()
         std::pair<int, int> src(start_y-1, start_x-1);  // начальные координаты
         std::pair<int, int> dest(end_y-1, end_x-1);  // конечные координаты
 
-        mazeSolver.parseMaze("awd.txt");
-        std::cout << "parseMaze был\n";
-        QString tmp = QString::number(start_x) + " - " + QString::number(start_y) + " : " + QString::number(end_x) + " - " + QString::number(end_y) ;
+        QString currentDir = QCoreApplication::applicationDirPath();
 
-        QMessageBox::information(this, tmp, tmp);
+        std::string currentDirr = currentDir.toStdString();
+
+        size_t foundPos = currentDirr.find("src/");
+        std::string modifiedDir;
+
+
+        if (foundPos != std::string::npos) {
+            modifiedDir = currentDirr.substr(0, foundPos + 4);
+        }
+
+        mazeSolver.parseMaze(modifiedDir + "/examples/awd.txt");
 
         std::vector<std::vector<int>> wave = mazeSolver.findPath(src, dest);
 
-        QMessageBox::information(this, tmp, tmp);
-
-        std::cout << "findPath был\n";
         QVector<QPoint> path;
         for (size_t i = 0; i < wave.size(); ++i) {
             for (size_t j = 0; j < wave[i].size(); ++j) {
                 if (wave[i][j] != -1) {
                     path.append(QPoint(static_cast<int>(j), static_cast<int>(i)));
-                    std::cout << "[" << i << "][" << j << "] ";
                 }
             }
         }
@@ -95,7 +109,6 @@ void MainWindow::on_btnSolveMaze_clicked()
         };
 
         std::sort(path.begin(), path.end(), compareFunction);
-        std::cout << "sort был\n";
 
         ui->maze->setSolution(path);
     } catch (const std::exception& e) {
@@ -128,10 +141,21 @@ void MainWindow::on_btnLoadMazeFromFile_clicked()
         std::string fileName = filePath.toStdString();
 
         Matrix loadedMatrix;
-        loadedMatrix.loadMaze(fileName);
+        QString currentDir = QCoreApplication::applicationDirPath();
+
+        std::string currentDirr = currentDir.toStdString();
+
+        size_t foundPos = currentDirr.find("src/");
+        std::string modifiedDir;
+
+        if (foundPos != std::string::npos) {
+            modifiedDir = currentDirr.substr(0, foundPos + 4);
+        }
+
+        loadedMatrix.loadMaze(fileName, modifiedDir);
         ui->maze->setMatrix(loadedMatrix);
 
-        ui->maze->loadMazeFromFile(filePath);
+        ui->maze->loadMazeFromFile(filePath, modifiedDir);
 
         ui->maze->update();
         ui->btnSolveMaze->setEnabled(true);

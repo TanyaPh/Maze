@@ -1,4 +1,3 @@
-// MazeController.cpp
 #include "MazeController.h"
 
 MazeController::MazeController(int numRows, int numCols) : myMatrix(numRows, numCols) {}

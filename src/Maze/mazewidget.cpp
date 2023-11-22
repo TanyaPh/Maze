@@ -89,9 +89,9 @@ void MazeWidget::paintEvent(QPaintEvent* event) {
     drawSolution(painterSolution);
 }
 
-void MazeWidget::loadMazeFromFile(const QString& filePath) {
+void MazeWidget::loadMazeFromFile(const QString& filePath, const std::string &currentDir) {
     Matrix loadedMatrix;
-    loadedMatrix.loadMaze(filePath.toStdString());
+    loadedMatrix.loadMaze(filePath.toStdString(), currentDir);
     setMatrix(loadedMatrix);
     clearSolution();
 }

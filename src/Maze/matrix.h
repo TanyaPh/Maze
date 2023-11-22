@@ -31,7 +31,7 @@ public:
     void checkHorizontalInRow(int i);
     void generateMaze();
     void saveMaze(const std::string& fileName) const;
-    void loadMaze(const std::string& fileName);
+    void loadMaze(const std::string& fileName, const std::string &currentDir);
 };
 
 #endif // MATRIX_H

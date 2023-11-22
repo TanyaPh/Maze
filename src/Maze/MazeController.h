@@ -1,4 +1,3 @@
-// MazeController.h
 #ifndef MAZECONTROLLER_H
 #define MAZECONTROLLER_H
 

@@ -104,7 +104,7 @@ void Matrix::saveMaze(const std::string& fileName) const {
     std::filesystem::path outputPath(fileName);
 
     if (outputPath.is_relative()) {
-        // Если путь относительный, преобразуем его в абсолютный путь
+        // если путь относительный, преобразуем его в абсолютный путь
         outputPath = std::filesystem::absolute(outputPath);
     }
 
@@ -130,13 +130,13 @@ void Matrix::saveMaze(const std::string& fileName) const {
         }
 
         outputFile.close();
-        std::cout << "Maze saved to: " << outputPath << std::endl;
+//        std::cout << "Maze saved to: " << outputPath << std::endl;
     } else {
         std::cerr << "Unable to open file for writing: " << outputPath << std::endl;
     }
 }
 
-void Matrix::loadMaze(const std::string& fileName) {
+void Matrix::loadMaze(const std::string& fileName, const std::string& currentDir) {
     std::ifstream inputFile(fileName);
 
     if (inputFile.is_open()) {
@@ -179,8 +179,8 @@ void Matrix::loadMaze(const std::string& fileName) {
         std::getline(inputFile, emptyLine);
 
         inputFile.close();
-        std::cout << "Maze loaded from: " << fileName << std::endl;
-        saveMaze("awd.txt");
+
+        saveMaze(currentDir + "/examples/awd.txt");
     } else {
         std::cerr << "Unable to open file for reading: " << fileName << std::endl;
     }

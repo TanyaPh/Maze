@@ -19,6 +19,17 @@ test: clean
 	./tests/tests
 	rm -rf tests/tests
 
+dvi:
+	open Read_me.html
+
+dist:
+	rm -rf Archive_Maze/
+	mkdir Archive_Maze/
+	mkdir Archive_Maze/src
+	cp -r ./build/Maze.app Archive_Maze/src/
+	tar cvzf Archive_Maze.tgz Archive_Maze/
+	rm -rf Archive_Maze/
+
 clean:
 	rm -f *.gcno *.gcda *.info *.out *.gch
 	rm -rf ./gcov_rep.out.dSYM

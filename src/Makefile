@@ -15,7 +15,7 @@ uninstall:
 	rm -rf build*
 
 test: clean
-	$(CC) tests/tests.cpp Maze/matrix.cpp $(CHECKFLAGS) -o tests/tests
+	$(CC) tests/tests.cpp Maze/matrix.cpp Maze/mazeSolver.cpp $(CHECKFLAGS) -o tests/tests
 	./tests/tests
 	rm -rf tests/tests
 

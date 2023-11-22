@@ -1,5 +1,5 @@
-CC=gcc -Wall -Werror -Wextra -std=c++17 -g
-CHECKFLAGS=-lgtest -lgmock -pthread -lstdc++ -lm
+CC=g++ -Wall -Werror -Wextra -std=c++17 -g
+CHECKFLAGS=-lgtest -lgmock -pthread
 GCOVFLAGS = -fprofile-arcs -ftest-coverage
 GCOV=--coverage
 OS = $(shell uname)

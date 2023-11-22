@@ -1,6 +1,10 @@
 #include "matrix.h"
 
 Matrix::Matrix(int numRows, int numCols) : rows(numRows), cols(numCols) {
+    if (rows > 50 || cols > 50) {
+        throw std::invalid_argument("Matrix size exceeds the maximum limit of 50x50");
+    }
+
     vertical.resize(rows + 1, std::vector<int>(cols, 0));
     horizontal.resize(rows, std::vector<int>(cols + 1, 0));
 
@@ -97,11 +101,11 @@ void Matrix::generateMaze() {
 }
 
 void Matrix::saveMaze(const std::string& fileName) const {
-    std::filesystem::path outputPath(fileName);
+    std::__fs::filesystem::path outputPath(fileName);
 
     if (outputPath.is_relative()) {
         // Если путь относительный, преобразуем его в абсолютный путь
-        outputPath = std::filesystem::absolute(outputPath);
+        outputPath = std::__fs::filesystem::absolute(outputPath);
     }
 
     std::ofstream outputFile(outputPath);

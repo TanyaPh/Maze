@@ -110,12 +110,8 @@ std::vector<std::vector<int>> MazeSolver::makePath(std::vector<std::vector<int>>
 
 std::vector<std::vector<int>> MazeSolver::findPath(std::pair<int, int> src, std::pair<int, int> dest) {
     coordinateValidation(src, dest);
-    std::cout << "coordinateValidation";
     std::vector<std::vector<int>> wave(rows, std::vector<int>(cols, -1));
-    std::cout << "wave";
     makeWave(wave, src, dest);
-    std::cout << "makeWave";
     renderM(wave);
-    std::cout << "renderM";
     return makePath(wave, dest);
 }

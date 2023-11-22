@@ -101,11 +101,11 @@ void Matrix::generateMaze() {
 }
 
 void Matrix::saveMaze(const std::string& fileName) const {
-    std::__fs::filesystem::path outputPath(fileName);
+    std::filesystem::path outputPath(fileName);
 
     if (outputPath.is_relative()) {
         // Если путь относительный, преобразуем его в абсолютный путь
-        outputPath = std::__fs::filesystem::absolute(outputPath);
+        outputPath = std::filesystem::absolute(outputPath);
     }
 
     std::ofstream outputFile(outputPath);
@@ -130,9 +130,9 @@ void Matrix::saveMaze(const std::string& fileName) const {
         }
 
         outputFile.close();
-        std::cout << "Maze saved to: " << outputPath << std::endl;
+        // std::cout << "Maze saved to: " << outputPath << std::endl;
     } else {
-        std::cerr << "Unable to open file for writing: " << outputPath << std::endl;
+         throw std::runtime_error("Unable to open file for writing");
     }
 }
 
@@ -179,9 +179,8 @@ void Matrix::loadMaze(const std::string& fileName) {
         std::getline(inputFile, emptyLine);
 
         inputFile.close();
-        std::cout << "Maze loaded from: " << fileName << std::endl;
         saveMaze("awd.txt");
     } else {
-        std::cerr << "Unable to open file for reading: " << fileName << std::endl;
+        throw std::runtime_error("Unable to open file for reading");
     }
 }

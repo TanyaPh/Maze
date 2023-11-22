@@ -7,6 +7,7 @@ OS = $(shell uname)
 all: install
 
 install:
+	rm -rf build*
 	mkdir build
 	cd Maze && qmake && make && make clean && rm Makefile && cd ../ && mv Maze/maze.app build
 	open build/maze.app

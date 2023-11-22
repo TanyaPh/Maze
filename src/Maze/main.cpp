@@ -1,13 +1,13 @@
 #include <QApplication>
+#include <iostream>
+
 #include "mainwindow.h"
 #include "mazeSolver.h"
 #include "mazewidget.h"
-#include <iostream>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec();
 }
-

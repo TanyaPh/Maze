@@ -30,6 +30,12 @@ dist:
 	tar cvzf Archive_Maze.tgz Archive_Maze/
 	rm -rf Archive_Maze/
 
+check:
+	cp ../materials/linters/.clang-format ./
+	clang-format -i $(shell find . -name "*.cpp" -or -name "*.cc" -or -name "*.h" -or -name "*.h")
+	clang-format -n $(shell find . -name "*.cpp" -or -name "*.cc" -or -name "*.h" -or -name "*.h") --verbose -Werror
+	rm .clang-format
+
 clean:
 	rm -f *.gcno *.gcda *.info *.out *.gch
 	rm -rf ./gcov_rep.out.dSYM

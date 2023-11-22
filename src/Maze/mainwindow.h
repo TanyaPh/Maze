@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "MazeController.h"
 #include "mazewidget.h"
 #include <QMainWindow>
 
@@ -27,6 +26,5 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-//    MazeController controller_;
 };
 #endif // MAINWINDOW_H

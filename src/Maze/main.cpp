@@ -1,5 +1,4 @@
 #include <QApplication>
-#include "MazeController.h"
 #include "mainwindow.h"
 #include "mazeSolver.h"
 #include "mazewidget.h"

@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "MazeController.h"
+#include "mazeSolver.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFileDialog>

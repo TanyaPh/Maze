@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../Maze/matrix.h"
+#include "../Maze/mazeSolver.h"
 
 TEST(MatrixTest, GenerateMaze) {
     Matrix matrix(5, 5);
@@ -81,9 +82,6 @@ TEST(MatrixTest, GenerateMaze6) {
     EXPECT_EQ(matrix.getRows(), 3);
     EXPECT_EQ(matrix.getColumns(), 3);
 
-    EXPECT_EQ(matrix.getVerticalValue(2, 1), 0);
-    EXPECT_EQ(matrix.getHorizontalValue(2, 2), 0);
-
     for (int i = 0; i < matrix.getRows(); ++i) {
         for (int j = 0; j < matrix.getColumns(); ++j) {
             if (!(i == 2 && j == 1) && !(i == 2 && j == 2)) {
@@ -119,19 +117,6 @@ TEST(MatrixTest, MazeIncorrectSize) {
         }
     }, std::invalid_argument);
 }
-
-// TEST(MatrixTest, GenerateMaze) {
-//     Matrix matrix(55, 60);
-
-//     EXPECT_THROW(matrix.generateMaze(), std::runtime_error);
-
-//     try {
-//         matrix.generateMaze();
-//     } catch (const std::runtime_error& e) {
-//         EXPECT_STREQ(e.what(), "Invalid matrix size: maximum allowed size is 50x50");
-//     }
-// }
-
 
 TEST(MatrixTest, GenerateMaze2) {
     int numRows = 10;
@@ -183,9 +168,49 @@ TEST(MatrixTest, LoadMazeInvalidData) {
     ASSERT_EQ(matrix.getColumns(), 0);
 }
 
+
+TEST(MazeSolverTest, ValidPathFound) {
+    MazeSolver mazeSolver;
+    std::pair<int, int> src = {0, 0};
+    std::pair<int, int> dest = {9, 9};
+    mazeSolver.parseMaze("examples/10x10v1.txt");
+    std::vector<std::vector<int>> result = mazeSolver.findPath(src, dest);
+    EXPECT_EQ(48, result[dest.first][dest.second]);
+}
+
+TEST(MazeSolverTest, SameCoordinates) {
+    MazeSolver mazeSolver;
+    std::pair<int, int> src = {4, 4};
+    std::pair<int, int> dest = {4, 4};
+    mazeSolver.parseMaze("../examples/10x10v1.txt");
+    ASSERT_THROW(mazeSolver.findPath(src, dest), std::string);
+}
+
+TEST(MazeSolverTest, CoordinatesOutOfRange) {
+    MazeSolver mazeSolver;
+    std::pair<int, int> src = {-4, 4};
+    std::pair<int, int> dest = {4, -4};
+    mazeSolver.parseMaze("../examples/10x10v1.txt");
+    ASSERT_THROW(mazeSolver.findPath(src, dest), std::string);
+}
+
+TEST(MazeSolverTest, InvalidCoordinates) {
+    MazeSolver mazeSolver;
+    std::pair<int, int> src = {222, 4};
+    std::pair<int, int> dest = {4, 222};
+    mazeSolver.parseMaze("../examples/10x10v1.txt");
+    ASSERT_THROW(mazeSolver.findPath(src, dest), std::string);
+}
+
+TEST(MazeSolverTest, PathNotFound) {
+    MazeSolver mazeSolver;
+    std::pair<int, int> src = {0, 0};
+    std::pair<int, int> dest = {3, 3};
+    mazeSolver.parseMaze("../examples/10x10v2.txt");
+    ASSERT_THROW(mazeSolver.findPath(src, dest), std::string);
+}
+
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
-

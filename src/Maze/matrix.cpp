@@ -132,7 +132,7 @@ void Matrix::saveMaze(const std::string& fileName) const {
         outputFile.close();
         // std::cout << "Maze saved to: " << outputPath << std::endl;
     } else {
-         throw std::runtime_error("Unable to open file for writing");
+        std::cerr << "Unable to open file for writing: " << outputPath << std::endl;
     }
 }
 
@@ -179,8 +179,9 @@ void Matrix::loadMaze(const std::string& fileName) {
         std::getline(inputFile, emptyLine);
 
         inputFile.close();
+        std::cout << "Maze loaded from: " << fileName << std::endl;
         saveMaze("awd.txt");
     } else {
-        throw std::runtime_error("Unable to open file for reading");
+        std::cerr << "Unable to open file for reading: " << fileName << std::endl;
     }
 }

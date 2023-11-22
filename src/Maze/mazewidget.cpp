@@ -68,9 +68,6 @@ void MazeWidget::paintEvent(QPaintEvent* event) {
 
     QPainter painter(this);
 
-    int cellWidth = width() / mazeMatrix.getColumns();
-    int cellHeight = height() / mazeMatrix.getRows();
-
     // для отрисовки границ
     painter.setPen(Qt::green);
     // верхняя и нижняя границы виджета

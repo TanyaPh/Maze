@@ -1,100 +1,31 @@
 #include <gtest/gtest.h>
-#include "mazeSolver.h"
+#include "matrix.h"
 
-TEST(MazeSolverTest, ValidPathFound) {
-    MazeSolver mazeSolver;
-    std::vector<std::vector<int>> wave = { { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 } };
-    std::pair<int, int> src = {0, 0};
-    std::pair<int, int> dest = {3, 3};
-    ASSERT_NO_THROW(mazeSolver.makeWave(wave, src, dest));
-    EXPECT_EQ(wave[dest.first][dest.second], 3);
+
+TEST(test_generate_maze, test_generate_maze_properties) {
+    Matrix testMaze(10, 10);
+
+    int height = 10;
+    int width = 10;
+
+    Matrix generatedMaze(height, width);
+    generatedMaze.generateMaze();
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            int value = generatedMaze.getVerticalValue(i, j);
+            ASSERT_TRUE(value == 0 || value == 1);
+        }
+    }
+
+    for (int i = 0; i < height; i++) {
+        ASSERT_EQ(generatedMaze.getVerticalValue(i, 0), 1);
+        ASSERT_EQ(generatedMaze.getVerticalValue(i, width - 1), 1);
+    }
+
+    for (int j = 0; j < width; j++) {
+        ASSERT_EQ(generatedMaze.getVerticalValue(0, j), 1);
+        ASSERT_EQ(generatedMaze.getVerticalValue(height - 1, j), 1);
+    }
+
 }
-
-TEST(MazeSolverTest, PathNotFound) {
-    MazeSolver mazeSolver;
-    std::vector<std::vector<int>> wave = { { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 } };
-    std::pair<int, int> src = {0, 0};
-    std::pair<int, int> dest = {3, 3};
-    ASSERT_THROW(mazeSolver.makeWave(wave, src, dest), std::string);
-}
-
-TEST(MazeSolverTest, ValidPathLength) {
-    MazeSolver mazeSolver;
-    std::vector<std::vector<int>> wave = { { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 } };
-    std::pair<int, int> src = {0, 0};
-    std::pair<int, int> dest = {3, 3};
-    ASSERT_NO_THROW(mazeSolver.makeWave(wave, src, dest));
-    EXPECT_EQ(wave[dest.first][dest.second], 3);
-}
-
-TEST(MazeSolverTest, InvalidSource) {
-    MazeSolver mazeSolver;
-    std::vector<std::vector<int>> wave = { { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 } };
-    std::pair<int, int> src = {-1, -1};
-    std::pair<int, int> dest = {3, 3};
-    ASSERT_THROW(mazeSolver.makeWave(wave, src, dest), std::string);
-}
-
-TEST(MazeSolverTest, InvalidDestination) {
-    MazeSolver mazeSolver;
-    std::vector<std::vector<int>> wave = { { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 },
-                                          { -1, -1, -1, -1 } };
-    std::pair<int, int> src = {0, 0};
-    std::pair<int, int> dest = {4, 4};
-    ASSERT_THROW(mazeSolver.makeWave(wave, src, dest), std::string);
-}
-
-// TEST(MazeSolverTest, MakePathTestEmptyMaze) {
-//     MazeSolver solver;
-
-//     std::vector<std::vector<int>> wave = {};
-//     std::pair<int, int> src = std::make_pair(0, 0);
-//     std::pair<int, int> dest = std::make_pair(0, 0);
-//     std::vector<std::vector<int>> path = solver.makePath(wave, src, dest);
-//     ASSERT_TRUE(path.empty());
-// }
-
-// TEST(MazeSolverTest, MakePathTestUnreachableDestination) {
-//     MazeSolver solver;
-//     std::vector<std::vector<int>> wave = {
-//         {1, 2, 3},
-//         {4, 5, 6},
-//         {7, 8, 9}
-//     };
-//     std::pair<int, int> src = std::make_pair(0, 0);
-//     std::pair<int, int> dest = std::make_pair(2, 2);
-//     std::vector<std::vector<int>> path = solver.makePath(wave, src, dest);
-//     ASSERT_TRUE(path.empty());
-// }
-
-// TEST(MazeSolverTest, MakePathTestHorizontalObstacle) {
-//     MazeSolver solver;
-//     std::vector<std::vector<int>> wave = {
-//         {0, 1, 2},
-//         {3, 4, 5},
-//         {6, 7, 8}
-//     };
-//     std::pair<int, int> src = std::make_pair(0, 0);
-//     std::pair<int, int> dest = std::make_pair(2, 2);
-//     std::vector<std::vector<int>> path = solver.makePath(wave, src, dest);
-//     std::vector<std::vector<int>> expectedPath = {
-//         {0, -1, 2},
-//         {3, -1, 5},
-//         {6, -1, 8}
-//     };
-//     ASSERT_EQ(path, expectedPath);
-// }

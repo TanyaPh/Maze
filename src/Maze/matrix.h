@@ -4,6 +4,12 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cstdlib> // for rand function
+#include <cstdlib>   // Подключаем библиотеку для работы с функциями, связанными с генерацией случайных чисел
+#include <ctime>
+#include <algorithm>
+#include <random>
+#include <filesystem>
 
 class Matrix {
 private:

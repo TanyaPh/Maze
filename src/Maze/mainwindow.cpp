@@ -91,9 +91,6 @@ void MainWindow::on_btnSolveMaze_clicked()
         ui->maze->setSolution(path);
     } catch (const std::exception& e) {
         QMessageBox::critical(this, "Error", e.what());
-    } catch (const std::string& e) {
-//        QMessageBox::critical(this, "Error", e.what());
-        std::cout << " \n" << e;
     }
 }
 
@@ -101,14 +98,12 @@ void MainWindow::on_btnSolveMaze_clicked()
 void MainWindow::on_spinBoxRows_valueChanged(int arg1)
 {
     ui->end_y->setMaximum(arg1);
-    std::cout << "\nstart: " << ui->start_x->value() << ", " << ui->start_y->value() << "\n end: " << ui->end_x->value() << ", " << ui->end_y->value();
 }
 
 
 void MainWindow::on_spinBoxCols_valueChanged(int arg1)
 {
     ui->end_x->setMaximum(arg1);
-    std::cout << "\nstart: " << ui->start_x->value() << ", " << ui->start_y->value() << "\n end: " << ui->end_x->value() << ", " << ui->end_y->value();
 }
 
 
@@ -119,7 +114,7 @@ void MainWindow::on_btnLoadMazeFromFile_clicked()
 
         QString filePath = QFileDialog::getOpenFileName(this, tr("Open Maze File"), "", tr("Text Files (*.txt)"));
         if (filePath.isEmpty()) {
-            return;  // Пользователь отменил выбор файла
+            return;
         }
         std::string fileName = filePath.toStdString();
 

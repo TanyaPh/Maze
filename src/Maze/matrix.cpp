@@ -1,9 +1,4 @@
 #include "matrix.h"
-#include <cstdlib> // for rand function
-#include <cstdlib>   // Подключаем библиотеку для работы с функциями, связанными с генерацией случайных чисел
-#include <ctime>
-#include <algorithm>
-#include <random>
 
 Matrix::Matrix(int numRows, int numCols) : rows(numRows), cols(numCols) {
     vertical.resize(rows + 1, std::vector<int>(cols, 0));
@@ -113,27 +108,21 @@ void Matrix::saveMaze(const std::string& fileName) const {
 
     if (outputFile.is_open()) {
         outputFile << rows << ' ' << cols << '\n';
-        std::cout << rows << ' ' << cols << '\n';
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 outputFile << vertical[i][j] << ' ';
-                std::cout << vertical[i][j] << ' ';
             }
             outputFile << '\n';
-             std::cout <<'\n';
         }
 
         outputFile << '\n';
-         std::cout <<'\n';
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 outputFile << horizontal[i][j] << ' ';
-                std::cout << horizontal[i][j] << ' ';
             }
             outputFile << '\n';
-            std::cout <<'\n';
         }
 
         outputFile.close();
@@ -147,7 +136,18 @@ void Matrix::loadMaze(const std::string& fileName) {
     std::ifstream inputFile(fileName);
 
     if (inputFile.is_open()) {
-        inputFile >> rows >> cols;
+        std::string rowsStr, colsStr;
+        inputFile >> rowsStr >> colsStr;
+
+        try {
+            rows = std::stoi(rowsStr);
+            cols = std::stoi(colsStr);
+        } catch (const std::exception& e) {
+            throw std::runtime_error("Invalid format: rows and cols must be numeric");
+        }
+
+        if (rows < 1 && cols < 1)
+            throw std::runtime_error("Invalid format: rows and columns cannot be less than 1");
 
         vertical.resize(rows + 1, std::vector<int>(cols, 0));
         horizontal.resize(rows, std::vector<int>(cols + 1, 0));
@@ -155,7 +155,9 @@ void Matrix::loadMaze(const std::string& fileName) {
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                inputFile >> vertical[i][j];
+                if (!(inputFile >> vertical[i][j]) || (vertical[i][j] != 0 && vertical[i][j] != 1)) {
+                    throw std::runtime_error("Invalid format: maze data must be 0 or 1");
+                }
             }
         }
 
@@ -164,7 +166,9 @@ void Matrix::loadMaze(const std::string& fileName) {
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                inputFile >> horizontal[i][j];
+                if (!(inputFile >> horizontal[i][j]) || (horizontal[i][j] != 0 && horizontal[i][j] != 1)) {
+                    throw std::runtime_error("Invalid format: maze data must be 0 or 1");
+                }
             }
         }
 

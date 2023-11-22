@@ -14,6 +14,11 @@ install:
 uninstall:
 	rm -rf build*
 
+test: clean
+	$(CC) tests/tests.cpp Maze/matrix.cpp $(CHECKFLAGS) -o tests/tests
+	./tests/tests
+	rm -rf tests/tests
+
 clean:
 	rm -f *.gcno *.gcda *.info *.out *.gch
 	rm -rf ./gcov_rep.out.dSYM

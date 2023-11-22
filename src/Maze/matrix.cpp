@@ -142,3 +142,38 @@ void Matrix::saveMaze(const std::string& fileName) const {
         std::cerr << "Unable to open file for writing: " << outputPath << std::endl;
     }
 }
+
+void Matrix::loadMaze(const std::string& fileName) {
+    std::ifstream inputFile(fileName);
+
+    if (inputFile.is_open()) {
+        inputFile >> rows >> cols;
+
+        vertical.resize(rows + 1, std::vector<int>(cols, 0));
+        horizontal.resize(rows, std::vector<int>(cols + 1, 0));
+        sets.resize(rows, std::vector<int>(cols, -1));
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                inputFile >> vertical[i][j];
+            }
+        }
+
+        std::string emptyLine;
+        std::getline(inputFile, emptyLine);
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                inputFile >> horizontal[i][j];
+            }
+        }
+
+        std::getline(inputFile, emptyLine);
+
+        inputFile.close();
+        std::cout << "Maze loaded from: " << fileName << std::endl;
+        saveMaze("awd.txt");
+    } else {
+        std::cerr << "Unable to open file for reading: " << fileName << std::endl;
+    }
+}

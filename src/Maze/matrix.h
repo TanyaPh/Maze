@@ -14,6 +14,7 @@ private:
     std::vector<std::vector<int>> sets;
 
 public:
+    Matrix() : rows(0), cols(0) {}
     Matrix(int numRows, int numCols);
     int getRows() const;
     int getColumns() const;
@@ -24,6 +25,7 @@ public:
     void checkHorizontalInRow(int i);
     void generateMaze();
     void saveMaze(const std::string& fileName) const;
+    void loadMaze(const std::string& fileName);
 };
 
 #endif // MATRIX_H

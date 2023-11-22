@@ -92,4 +92,10 @@ void MazeWidget::paintEvent(QPaintEvent* event) {
     drawSolution(painterSolution);
 }
 
+void MazeWidget::loadMazeFromFile(const QString& filePath) {
+    Matrix loadedMatrix;
+    loadedMatrix.loadMaze(filePath.toStdString());
+    setMatrix(loadedMatrix);
+    clearSolution();
+}
 

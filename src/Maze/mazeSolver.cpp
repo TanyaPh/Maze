@@ -50,7 +50,7 @@ void MazeSolver::coordinateValidation(std::pair<int, int> src, std::pair<int, in
 }
 
 void MazeSolver::makeWave(std::vector<std::vector<int>> &wave, std::pair<int, int> src, std::pair<int, int> dest) {
-    std::queue<std::pair<int, int>> q;
+    std::queue<std::pair<int, int>> q;    
     wave[src.first][src.second] = 0;
     q.push(src);
     while (!q.empty()) {
@@ -78,8 +78,8 @@ void MazeSolver::makeWave(std::vector<std::vector<int>> &wave, std::pair<int, in
         }
         q.pop();
     }
-    if (wave[dest.first][dest.second] == -1) 
-        throw std::string{"Path not found"};
+    if (wave[dest.first][dest.second] == -1)
+        throw std::runtime_error("Path not found");
 }
 
 std::vector<std::vector<int>> MazeSolver::makePath(std::vector<std::vector<int>> &wave, std::pair<int, int> dest) {

@@ -42,5 +42,5 @@ clean:
 	rm -rf ./gcov_rep.out.dSYM
 	rm -rf ./report
 	rm -rf ./*.o ./*.a
-	rm -rf tests
+	rm -rf tests/tests
 	rm -rf .clang-format

@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <filesystem>
 
 #include "../Maze/matrix.h"
 #include "../Maze/mazeSolver.h"
@@ -166,7 +167,7 @@ TEST(MatrixTest, GenerateMaze2) {
 
 TEST(MatrixTest, LoadMazeSuccess) {
   Matrix matrix;
-  ASSERT_NO_THROW(matrix.loadMaze("examples/4x4.txt"));
+  ASSERT_NO_THROW(matrix.loadMaze("examples/4x4.txt", std::filesystem::current_path()));
 
   ASSERT_EQ(matrix.getRows(), 4);
   ASSERT_EQ(matrix.getColumns(), 4);
@@ -176,7 +177,7 @@ TEST(MatrixTest, LoadMazeSuccess) {
 
 TEST(MatrixTest, LoadMazeInvalidFormat) {
   Matrix matrix;
-  ASSERT_THROW(matrix.loadMaze("examples/invalid_format_maze.txt"),
+  ASSERT_THROW(matrix.loadMaze("examples/invalid_format_maze.txt", std::filesystem::current_path()),
                std::runtime_error);
   ASSERT_EQ(matrix.getRows(), 0);
   ASSERT_EQ(matrix.getColumns(), 0);
@@ -184,7 +185,7 @@ TEST(MatrixTest, LoadMazeInvalidFormat) {
 
 TEST(MatrixTest, LoadMazeInvalidData) {
   Matrix matrix;
-  ASSERT_THROW(matrix.loadMaze("examples/invalid_data_maze.txt"),
+  ASSERT_THROW(matrix.loadMaze("examples/invalid_data_maze.txt", std::filesystem::current_path()),
                std::runtime_error);
   ASSERT_EQ(matrix.getRows(), 0);
   ASSERT_EQ(matrix.getColumns(), 0);
